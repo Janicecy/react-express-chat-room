@@ -12,6 +12,15 @@ import { GithubOutlined } from '@ant-design/icons';
 import useWindowSize from './useWindowSize'
 import { useHistory, useLocation } from 'react-router-dom'
 
+// remove given element and return new araray 
+Array.prototype.removeElement = function (ele) {
+  const index = this.indexOf(ele)
+  if (~index) {
+    return [...this.slice(0,index), ...this.slice(index + 1, this.length) ]
+  }
+  return this 
+}
+
 const ChatRoom = (props) => {
   const location = useLocation();
   if (!location.state) history.push('/')
@@ -54,6 +63,9 @@ const ChatRoom = (props) => {
           _messsages = [..._messsages, res.data]
           console.log('new message' + res.data);
           setMessages(_messsages);
+        case EVENT_TYPE.USER_LEAVE:
+            _currentUsers = _currentUsers.removeElement(res.data);
+            setCurrentUsers(_currentUsers)
         default:
           break;
       }
