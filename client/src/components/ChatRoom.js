@@ -1,8 +1,8 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './main.css'
-// import socketIOClient from 'socket.io-client'
-import { ENDPOINT, CONTENT_ROOM } from '../constants'
+import socketIOClient from 'socket.io-client'
+import { ENDPOINT, CHAT_ROOM, EVENT_TYPE, MESSAGE_TYPES, dummyData } from '../constants'
 import UserList from './UserList'
 import { getBase64 } from '../helpers'
 import PropTypes from 'prop-types';
@@ -10,43 +10,63 @@ import imgIcon from './img_icon.png'
 import userIcon from './user_icon.png'
 import { GithubOutlined } from '@ant-design/icons';
 import useWindowSize from './useWindowSize'
-const MESSAGE_TYPES = {
-  TEXT: 'TEXT',
-  IMAGE: 'IMAGE'
-
-}
-
-const dummyData = [
-  { type: "TEXT", content: "heelo", time: 'July 19, 2020', author: 'cy' },
-  { type: "TEXT", content: "heelo", time: 'July 19, 2020', author: 'cy' },
-  { type: "TEXT", content: "heelo", time: 'July 19, 2020', author: 'cy' },
-  { type: "TEXT", content: "heelo", time: 'July 19, 2020', author: 'yingch' },
-]
+import { useHistory, useLocation } from 'react-router-dom'
 
 const ChatRoom = (props) => {
-  const [messages, setMessages] = useState(dummyData);
-  const { width: windowWidth } = useWindowSize();
+  const location = useLocation();
+  if (!location.state) history.push('/')
+  const { username, roomData } = location.state;
+  // states
+  const [messages, setMessages] = useState(roomData.messages);
+  const [currentUsers, setCurrentUsers] = useState(roomData.currentUsers);
   const [isUserListOpen, toggleUserList] = useState(false);
+  // custom hook 
+  const { width: windowWidth } = useWindowSize();
 
-  useEffect(() => {
-    axios.get('/api/get-all-messages')
-      .then((res) => {
-        if (res.status == 200)
-          setMessages(res.data);
-      })
-  })
+  const history = useHistory();
+  const socket = socketIOClient(ENDPOINT, { query: `roomId=${roomData.roomId}` });
 
-  const _constructMessage = ({ type, content }) => {
+  const _constructMessage = ({ type, content }, author) => {
     return {
       type,
       content,
       time: new Date().toLocaleDateString(),
-      author: props.author
+      author
     }
   }
 
+  // before connecting to websocket, make sure the room was created 
+  useEffect(() => {
+    console.log('client connecting to socket.....');
+    socket.emit('join', username)
+
+    // the changes of  outer `messages` will not be reflected here, so 
+    let _messsages = messages; // create a closure variable tp keep track of current messages
+    let _currentUsers = currentUsers;
+    socket.on("chat_room", (res) => {
+      console.log('new response ...' + res);
+      switch (res.eventType) {
+        case EVENT_TYPE.USER_JOIN:
+          _currentUsers = [..._currentUsers, res.data]
+          setCurrentUsers(_currentUsers)
+          break;
+        case EVENT_TYPE.NEW_MESSAGE:
+          _messsages = [..._messsages, res.data]
+          console.log('new message' + res.data);
+          setMessages(_messsages);
+        default:
+          break;
+      }
+    })
+  }, [])
+
   const scrollToBottom = () => {
     window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  const adddNewMessage = (newMessage, clearInput) => {
+    socket.emit('message', newMessage)
+    clearInput();
   }
 
   return (
@@ -63,14 +83,16 @@ const ChatRoom = (props) => {
       }
 
       {windowWidth > 500 || isUserListOpen
-        ? <UserList roomOwner='chenying' />
+        ? <UserList roomOwner={roomData.owner} currentUsers={currentUsers} />
         : null
       }
 
       <div id='chat-box-wrapper'>
-        <ContentBox username='yingch' messages={messages} />
-        <InputBox handleAddNewMessage={(rawMessage) => {
-          setMessages([...messages, _constructMessage(rawMessage)])
+        <ContentBox username={username} messages={messages} />
+        {/* rawMessage: { type: String, content: String/File } */}
+        <InputBox onNewMessage={(rawMessage, clearInput) => {
+          const formattedMsg = _constructMessage(rawMessage, username);
+          adddNewMessage(formattedMsg, clearInput);
           scrollToBottom();
         }} />
       </div>
@@ -87,15 +109,6 @@ ChatRoom.prototypes = {
 
 const ContentBox = (props) => {
   const { username, messages } = props
-
-  // useEffect(() => {
-  //     const socket = socketIOClient(ENDPOINT);
-  //     socket.on(CONTENT_ROOM, data => {
-  //         setMessages([...messages, data]);
-  //         console.log(data)
-  //     })
-  // })
-
   const renderMessages = (messages) => {
     return messages.map((message) => {
       const isAuthor = message.author == username;
@@ -127,9 +140,6 @@ const ContentBox = (props) => {
   )
 }
 
-
-
-
 const InputBox = (props) => {
   const [inputText, setInputText] = useState('');
 
@@ -137,21 +147,15 @@ const InputBox = (props) => {
     if (!inputText) {
       return;
     }
-
-    props.handleAddNewMessage({ type: MESSAGE_TYPES.TEXT, content: inputText })
-    // axios.post(ENDPOINT + '/api/add-content', {})
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //       this.setState({ inputText: '' })
-    //     }
-    //   })
-    //   .catch(e => console.log(e.message))
+    props.onNewMessage({ type: MESSAGE_TYPES.TEXT, content: inputText }, clearInput)
   }
+
+  const clearInput = () => { setInputText('') }
 
   const uploadImage = async e => {
     const res = await getBase64(e.target.files[0])
     console.log(res);
-    props.handleAddNewMessage({ type: MESSAGE_TYPES.IMAGE, content: res })
+    props.onNewMessage({ type: MESSAGE_TYPES.IMAGE, content: res }, clearInput)
     console.log(e.target.files[0]);
   }
 
