@@ -181,6 +181,10 @@ input[type=textarea] {
 }
 
 
+#user-row > div {
+    flex: 0 1 33.33%;
+}
+
 .user-name {
     align-self: flex-start;
     color: rgba(0,0,0,.45);;
