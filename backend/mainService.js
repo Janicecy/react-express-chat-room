@@ -44,8 +44,9 @@ class ChatRoomManager {
 
   leaveRoom(roomId, username) {
     if (this.existingRooms[roomId]) {
-      const index = this.existingRooms[roomId].indexOf(username);
-      this.existingRooms.splice(index, 1);
+      const index = this.existingRooms[roomId].currentUsers.indexOf(username);
+      if (~index)
+        this.existingRooms.splice(index, 1);
     }
   }
 

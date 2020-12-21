@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './main.css'
+import styles from './ChatRoom.css'
 import socketIOClient from 'socket.io-client'
 import { ENDPOINT, CHAT_ROOM, EVENT_TYPE, MESSAGE_TYPES, dummyData } from '../constants'
 import UserList from './UserList'
 import { getBase64 } from '../helpers'
 import PropTypes from 'prop-types';
-import imgIcon from './img_icon.png'
-import userIcon from './user_icon.png'
+import imgIcon from '../assets/images/img_icon.png'
+import userIcon from '../assets/images/user_icon.png'
 import { GithubOutlined } from '@ant-design/icons';
 import useWindowSize from './useWindowSize'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -16,9 +16,9 @@ import { useHistory, useLocation } from 'react-router-dom'
 Array.prototype.removeElement = function (ele) {
   const index = this.indexOf(ele)
   if (~index) {
-    return [...this.slice(0,index), ...this.slice(index + 1, this.length) ]
+    return [...this.slice(0, index), ...this.slice(index + 1, this.length)]
   }
-  return this 
+  return this
 }
 
 const ChatRoom = (props) => {
@@ -27,7 +27,7 @@ const ChatRoom = (props) => {
   const { username, roomData } = location.state;
   // states
   const [messages, setMessages] = useState(roomData.messages);
-  const [currentUsers, setCurrentUsers] = useState(roomData.currentUsers);
+  const [currentUsers, setCurrentUsers] = useState([...roomData.currentUsers, 'tesarsjk']);
   const [isUserListOpen, toggleUserList] = useState(false);
   // custom hook 
   const { width: windowWidth } = useWindowSize();
@@ -64,8 +64,8 @@ const ChatRoom = (props) => {
           console.log('new message' + res.data);
           setMessages(_messsages);
         case EVENT_TYPE.USER_LEAVE:
-            _currentUsers = _currentUsers.removeElement(res.data);
-            setCurrentUsers(_currentUsers)
+          _currentUsers = _currentUsers.removeElement(res.data);
+          setCurrentUsers(_currentUsers)
         default:
           break;
       }
@@ -87,7 +87,7 @@ const ChatRoom = (props) => {
         windowWidth < 500
           ? (
             <div id='top-bar'>
-              <GithubOutlined />
+              <GithubOutlined onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')} />
               <img id='user-toggle' onClick={() => toggleUserList(!isUserListOpen)} style={{ width: 22 }} src={userIcon} />
             </div>
           )

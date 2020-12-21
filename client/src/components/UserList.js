@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import './main.css'
+import React from 'react'
+import styles from './UserList.css'
 
 const UserList = (props) => {
   const { roomOwner, currentUsers } = props

@@ -1,0 +1,39 @@
+#user-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 10px;
+  border-bottom:  1px solid #f0f0f0;
+}
+
+
+#user-row > div {
+  flex: 0 1 33.33%;
+}
+
+.user-name {
+  align-self: flex-start;
+  color: rgba(0,0,0,.45);;
+}
+
+.user-label {
+  color: #52c41a;
+  background: #f6ffed;
+  border-color: #b7eb8f;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  height: auto;
+  padding: 0 7px;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.user-avatar {
+  background-color: #ccc;
+  border-radius: 50%;
+  height: 38px;
+  width: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

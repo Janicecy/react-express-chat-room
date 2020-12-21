@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import ChatRoom from './components/ChatRoom'
-import MainPage from './MainPage'
+import MainPage from './components/MainPage'
 
 ReactDOM.render(
   <BrowserRouter>
