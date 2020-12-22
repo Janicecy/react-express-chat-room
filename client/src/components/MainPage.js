@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import useWindowSize from './useWindowSize';
+import { GithubOutlined } from '@ant-design/icons';
 import styles from './MainPage.css'
+import ParticleBG from './ParticleBG'
 const MainPage = (props) => {
   const [roomId, setRoomId] = useState('');
   const [username, setUsername] = useState('');
@@ -14,12 +16,12 @@ const MainPage = (props) => {
       return;
     }
     axios.get(`/api/room/${roomId}`)
-    .then(res => {
-      if (res.data) routeToRoom(res.data)
-    })
-    .catch(e => {
-      // room does not exist 
-    })
+      .then(res => {
+        if (res.data) routeToRoom(res.data)
+      })
+      .catch(e => {
+        // room does not exist 
+      })
   }
 
   const routeToRoom = (roomData) => {
@@ -39,17 +41,27 @@ const MainPage = (props) => {
 
   return (
     <div id='main-page'>
+      <GithubOutlined id='githubIcon'
+        onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')}
+      />
       <div id='join-room'>
-        <span>Join an existing room</span>
-        <input value={roomId} placeholder='room id' onChange={e => setRoomId(e.target.value)} />
-        <input value={username} placeholder='username' onChange={e => setUsername(e.target.value)} />
+        <ParticleBG />
+        <label style={{ fontSize: '2rem' }}>
+          Join a private room
+          <span>🧐</span>
+        </label>
+        <input value={roomId} placeholder='Room Id' onChange={e => setRoomId(e.target.value)} />
+        <input value={username} placeholder='Username' onChange={e => setUsername(e.target.value)} />
         <span className='error-message' style={{ display: roomNotExist ? "" : "none" }}>Room doesn't exit!</span>
         <button onClick={joinRoom}>Join</button>
 
       </div>
       <div id='create-room'>
-        <span>Create a new room</span>
-        <input value={username} placeholder='username' onChange={e => setUsername(e.target.value)} />
+        <label style={{ fontSize: '2rem' }}>
+          Create a new room
+          <span>🤓</span>
+        </label>
+        <input value={username} placeholder='Username' onChange={e => setUsername(e.target.value)} />
         <span className='error-message' style={{ display: roomIsTaken ? "" : "none" }}>Room id has been taken!</span>
         <button onClick={createRoom}>Create</button>
       </div>

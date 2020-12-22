@@ -120,8 +120,6 @@ input[type=textarea] {
       display: flex;
       justify-content: center;
       align-items: center;
-      /* background-color: #d4dbda; */
-      background-image: url('../assets/images/bg2.webp');;
       height: 100vh;
       background-position: 0px 0px;
       animation: animatedBackground 40s linear infinite;

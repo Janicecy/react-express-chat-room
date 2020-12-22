@@ -16,6 +16,10 @@
   color: rgba(0,0,0,.45);;
 }
 
+input {
+  font-family: inherit;
+}
+
 .user-label {
   color: #52c41a;
   background: #f6ffed;

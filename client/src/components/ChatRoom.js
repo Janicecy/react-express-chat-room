@@ -11,7 +11,7 @@ import userIcon from '../assets/images/user_icon.png'
 import { GithubOutlined } from '@ant-design/icons';
 import useWindowSize from './useWindowSize'
 import { useHistory, useLocation } from 'react-router-dom'
-
+import ParticleBG from './ParticleBG'
 // remove given element and return new araray 
 Array.prototype.removeElement = function (ele) {
   const index = this.indexOf(ele)
@@ -83,11 +83,12 @@ const ChatRoom = (props) => {
 
   return (
     <div id='chat-room'>
+      <ParticleBG/>
       {
         windowWidth < 500
           ? (
             <div id='top-bar'>
-              <GithubOutlined onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')} />
+              <GithubOutlined style={{fontSize:'2em' }} onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')} />
               <img id='user-toggle' onClick={() => toggleUserList(!isUserListOpen)} style={{ width: 22 }} src={userIcon} />
             </div>
           )
