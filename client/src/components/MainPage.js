@@ -44,6 +44,16 @@ const MainPage = (props) => {
       <GithubOutlined id='githubIcon'
         onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')}
       />
+
+<div id='create-room'>
+        <label style={{ fontSize: '2rem' }}>
+          Create a new room
+          <span>🤓</span>
+        </label>
+        <input value={username} placeholder='Username' onChange={e => setUsername(e.target.value)} />
+        <span className='error-message' style={{ display: roomIsTaken ? "" : "none" }}>Room id has been taken!</span>
+        <button onClick={createRoom}>Create</button>
+      </div>
       <div id='join-room'>
         <ParticleBG />
         <label style={{ fontSize: '2rem' }}>
@@ -55,15 +65,6 @@ const MainPage = (props) => {
         <span className='error-message' style={{ display: roomNotExist ? "" : "none" }}>Room doesn't exit!</span>
         <button onClick={joinRoom}>Join</button>
 
-      </div>
-      <div id='create-room'>
-        <label style={{ fontSize: '2rem' }}>
-          Create a new room
-          <span>🤓</span>
-        </label>
-        <input value={username} placeholder='Username' onChange={e => setUsername(e.target.value)} />
-        <span className='error-message' style={{ display: roomIsTaken ? "" : "none" }}>Room id has been taken!</span>
-        <button onClick={createRoom}>Create</button>
       </div>
     </div>
   )

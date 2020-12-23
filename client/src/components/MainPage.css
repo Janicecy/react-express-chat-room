@@ -14,7 +14,7 @@
 }
 
 
-#create-room {
+#join-room {
   background-color: black;
   
 }
@@ -75,7 +75,7 @@ button {
 }
 
 
-#create-room {
+#join-room {
   box-shadow: 10px 0px 40px white;
 }
 
