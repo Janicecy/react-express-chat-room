@@ -68,7 +68,7 @@ const MainPage = (props) => {
       />
 
       <div id='create-room'>
-        <label style={{ fontSize: '2rem' }}>
+        <label>
           Create a new room
           <span>🤓</span>
         </label>
@@ -79,7 +79,7 @@ const MainPage = (props) => {
       </div>
       <div id='join-room'>
         <ParticleBG />
-        <label style={{ fontSize: '2rem' }}>
+        <label>
           Join a private room
           <span>🧐</span>
         </label>

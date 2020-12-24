@@ -10,12 +10,6 @@ body {
   font-family: Verdana, sans-serif;
 }
 
-@media(max-width: 500px) {
-  :root {
-    font-size: 0.5em;
-  }
-}
-
 * {
   box-sizing: border-box;
 }

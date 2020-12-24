@@ -8,5 +8,6 @@ export const EVENT_TYPE = {
 
 export const MESSAGE_TYPES = {
   TEXT: 'TEXT',
-  IMAGE: 'IMAGE'
+  IMAGE: 'IMAGE',
+  USER_EVENT: 'USER_EVENT'
 }

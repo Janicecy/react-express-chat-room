@@ -3,17 +3,24 @@
   justify-content: space-around;
   align-items: center;
   padding: 5px 10px;
-  border-bottom:  1px solid #f0f0f0;
+  border-bottom:  1px solid #293136;
+
+}
+
+#user-list {
+  background-color: #131c21;
+  color: #fff;
+  border-right: 1px solid #293136;
 }
 
 
 #user-row > div {
-  flex: 0 1 33.33%;
+  flex: 0 1 30%;
+  margin: 5px 0;
 }
 
 .user-name {
   align-self: flex-start;
-  color: rgba(0,0,0,.45);;
 }
 
 input {
@@ -21,13 +28,11 @@ input {
 }
 
 .user-label {
-  color: #52c41a;
-  background: #f6ffed;
-  border-color: #b7eb8f;
-  border: 1px solid #d9d9d9;
-  border-radius: 5px;
+  color: #048f81;
+  border: 1px solid#048f81;
+  border-radius: 3px;
   height: auto;
-  padding: 0 7px;
+  padding: 2px 7px;
   font-size: 12px;
   line-height: 20px;
 }

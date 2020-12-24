@@ -1,14 +1,15 @@
 #message {
-  background-color: white;
-  border-radius: 0 7.5px 7.5px 7.5px;
+  background-color: #262d31;
+  border-radius: 8px;
   margin-top: 10px;
   max-width: 60%;
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: 5px 10px;
+  color: white;
 }
 
-#message-wrapper {
+.message-wrapper {
   /* create BFC */
   display: flow-root; 
 }
@@ -19,7 +20,6 @@
 
 #content-box {
   background-color: black;
-
 }
 
 #message-username {
@@ -29,12 +29,11 @@
 #message-time {
   color: #8b8c8b;
   align-self: flex-end;
-  font-size: 0.7em;
+  margin-top: 5px;
+  font-size: 0.5em;
 }
 
-
 .preview-img {
-  /* height: 100%; */
   max-width: 100%;
 }
 
@@ -43,7 +42,7 @@
   min-height: 7vh;
   display: flex;
   align-items: center;
-  background-color: thistle;
+  background-color: #1e2428;
   width: 100%;
   justify-content: space-between;
   bottom: 0;
@@ -71,10 +70,11 @@ input[type=textarea] {
   border-radius: 8px;
   border: 1px solid #ccc;
   min-height: 3vh;
-  background-color: white;
+  background-color: #33383b;
   padding: 3px 5px;
   overflow-wrap: break-word;
   height: 30px;
+  padding: 10px;
 }
 
 #top-bar {
@@ -84,7 +84,7 @@ input[type=textarea] {
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
-  background-color: thistle;
+  background-color: #2a2f32;
   align-items: center;
   height: 6vh;
 }
@@ -104,14 +104,13 @@ input[type=textarea] {
       min-height: 100vh;
       padding: 10vh 2vh;
   }
-
-
 }
 
 @media (min-width: 500px) {
   #user-list { 
       flex: 0 0 25%; 
       display: flex;
+      z-index: 2;
       flex-direction: column;
       padding: 0 10px;
   }
@@ -121,8 +120,6 @@ input[type=textarea] {
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-position: 0px 0px;
-      animation: animatedBackground 40s linear infinite;
   }
 
   #chat-box-wrapper {
