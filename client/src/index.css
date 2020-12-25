@@ -8,6 +8,9 @@ body {
   --mobile-fixed-offset: 6vh;
   --desktop-fixed-offset: 3vh;
   font-family: Verdana, sans-serif;
+  --chat-room-bg: #0c0c0c;
+  --panel-bg: #16161a;
+  --dividing-line: #202025;
 }
 
 * {
@@ -23,4 +26,17 @@ button {
   color: #fff !important;
   padding: 2px 5px;
   height: 30px;
+  cursor: pointer;
+}
+
+.githubIcon {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  font-size: 25px;
+}
+
+
+label {
+  cursor: pointer;
 }

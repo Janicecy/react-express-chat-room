@@ -8,9 +8,9 @@
 }
 
 #user-list {
-  background-color: #131c21;
+  background-color: var(--panel-bg);
   color: #fff;
-  border-right: 1px solid #293136;
+  border-right:  1px solid var(--dividing-line);
 }
 
 
@@ -45,4 +45,10 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media(min-width: 500px) {
+  #user-list {
+    margin-right: 8px;
+  }
 }

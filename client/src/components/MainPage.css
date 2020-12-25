@@ -47,7 +47,7 @@ input {
   }
 
   .error-message {
-    font-size: 1.5rem;
+    font-size: 15px;
   }
 
   button {
@@ -56,7 +56,6 @@ input {
 }
 
 button {
-  box-shadow: 0 0 10px 2px #60a3bc;
   font-family: inherit;
   letter-spacing: 0.3px;
 }
@@ -89,9 +88,3 @@ button {
   box-shadow: 10px 0px 40px white;
 }
 
-#githubIcon {
-  position: absolute;
-  bottom: 25px;
-  right: 25px;
-  font-size: 25px;
-}

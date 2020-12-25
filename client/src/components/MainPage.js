@@ -55,7 +55,7 @@ const MainPage = (props) => {
         .catch(() => {
           setCreationError({
             visible: true,
-            text: 'Someething went wrong... Please try again later'
+            text: 'Someething went wrong...'
           })
         })
     }
@@ -63,7 +63,7 @@ const MainPage = (props) => {
 
   return (
     <div id='main-page'>
-      <GithubOutlined id='githubIcon'
+      <GithubOutlined classNamew='githubIcon'
         onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')}
       />
 

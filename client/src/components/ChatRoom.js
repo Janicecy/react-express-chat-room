@@ -152,9 +152,9 @@ const ContentBox = (props) => {
           <div className='message-wrapper' id={`message-${index}`}>
             <div
               id='message'
-              style={{ backgroundColor: isAuthor ? "#056162" : "", float: isAuthor ? 'right' : '' }}
+              style={{ backgroundColor: isAuthor ? "#056162" : "", float: isAuthor ? 'right' : 'left' }}
             >
-              {!isAuthor ? <span id='message-author'>{message.author}</span> : null}
+              {!isAuthor ? <span id='message-author'>~{message.author}</span> : null}
               {getRenderedMessage(message)}
               <span id='message-time'>{message.time}</span>
             </div>
