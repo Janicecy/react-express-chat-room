@@ -10,7 +10,6 @@ import imgIcon from '../assets/images/img_icon1.png'
 import { GithubOutlined, UserOutlined } from '@ant-design/icons';
 import useWindowSize from './useWindowSize'
 import { useHistory, useLocation } from 'react-router-dom'
-import ParticleBG from './ParticleBG'
 
 // remove given element and return new araray 
 Array.prototype.removeElement = function (ele) {
@@ -33,7 +32,7 @@ const ChatRoom = (props) => {
   const { width: windowWidth } = useWindowSize();
 
   const history = useHistory();
-  const socket = socketIOClient(ENDPOINT, { query: `roomId=${roomData.roomId}` });
+  const socket = socketIOClient(ENDPOINT, { query: { roomId: roomData.roomId, username } });
 
   const _constructMessage = ({ type, content }, author) => {
     return {
@@ -53,20 +52,25 @@ const ChatRoom = (props) => {
     let _messsages = messages; // create a closure variable tp keep track of current messages
     let _currentUsers = currentUsers;
     socket.on("chat_room", (res) => {
-      console.log('new response ...' + res);
       switch (res.eventType) {
         case EVENT_TYPE.USER_JOIN:
           _currentUsers = [..._currentUsers, res.data]
+          _messsages = [..._messsages, { type: MESSAGE_TYPES.USER_JOIN, username: res.data }]
           setCurrentUsers(_currentUsers)
+          setMessages(_messsages)
           break;
         case EVENT_TYPE.NEW_MESSAGE:
           _messsages = [..._messsages, res.data]
           console.log('new message' + res.data);
           setMessages(_messsages);
-          scrollToBottom();
+          // scrollToBottom();
+          break;
         case EVENT_TYPE.USER_LEAVE:
+          _messsages = [..._messsages, { type: MESSAGE_TYPES.USER_LEAVE, username: res.data }]
           _currentUsers = _currentUsers.removeElement(res.data);
           setCurrentUsers(_currentUsers)
+          setMessages(_messsages)
+          break;
         default:
           break;
       }
@@ -88,17 +92,15 @@ const ChatRoom = (props) => {
 
   return (
     <div id='chat-room'>
-      <ParticleBG />
       {
         windowWidth < 500
           ? (
             <div id='top-bar'>
               <GithubOutlined style={{ color: 'white' }} onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')} />
               <UserOutlined onClick={() => toggleUserList(!isUserListOpen)} style={{ color: 'white' }} />
-              {/* <img id='user-toggle'  style={{ width: 22 }} src={userIcon} /> */}
             </div>
           )
-          : null
+          : <GithubOutlined className='githubIcon' style={{ color: 'white' }} onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')} />
       }
 
       {windowWidth > 500 || isUserListOpen
@@ -129,24 +131,43 @@ const ContentBox = (props) => {
   const { username, messages } = props
   const renderMessages = (messages, index) => {
     return messages.map((message) => {
+      const getRenderedMessage = message => {
+        switch (message.type) {
+          case MESSAGE_TYPES.TEXT:
+            return <div id='message-content'>{message.content}</div>
+          case MESSAGE_TYPES.IMAGE:
+            return <img className='preview-img' src={message.content} />
+          case MESSAGE_TYPES.USER_JOIN:
+            return <div className='user-event-message'><span style={{ color: '#60a3bc', fontWeight: 'bold' }}>{message.username}</span> has joined the room 👋</div>
+          case MESSAGE_TYPES.USER_LEAVE:
+            return <div className='user-event-message'><span style={{ color: '#60a3bc', fontWeight: 'bold' }}>{message.username}</span> has left the room</div>
+        }
+      }
+
       const isAuthor = message.author == username;
-      return (
-        <div className='message-wrapper' id={`message-${index}`}>
-          <div
-            id='message'
-            style={{ backgroundColor: isAuthor ? "#056162" : "", float: isAuthor ? 'right' : '' }}
-          >
-            {!isAuthor ? <span id='message-author'>{message.author}</span> : null}
 
-            {message.type === MESSAGE_TYPES.TEXT
-              ? <div id='message-content'>{message.content}</div>
-              : <img className='preview-img' src={message.content} />
-            }
-
-            <span id='message-time'>{message.time}</span>
+      const floated = [MESSAGE_TYPES.IMAGE, MESSAGE_TYPES.TEXT].includes(message.type);
+      if (floated) {
+        return (
+          <div className='message-wrapper' id={`message-${index}`}>
+            <div
+              id='message'
+              style={{ backgroundColor: isAuthor ? "#056162" : "", float: isAuthor ? 'right' : '' }}
+            >
+              {!isAuthor ? <span id='message-author'>{message.author}</span> : null}
+              {getRenderedMessage(message)}
+              <span id='message-time'>{message.time}</span>
+            </div>
           </div>
+        )
+      }
+
+      return (
+        <div>
+          {getRenderedMessage(message)}
         </div>
       )
+
     })
   }
   return (

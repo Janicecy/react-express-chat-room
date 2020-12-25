@@ -4,11 +4,6 @@ const EVENT_TYPE = {
   NEW_MESSAGE: 'NEW_MESSAGE'
 }
 
-const CHAT_ROOM_EVENT = {
-  JON: 'JON',
-  LEAVE: 'LEAVE',
-}
-
 class ChatRoomManager {
   constructor() {
     this.existingRooms = {
@@ -27,11 +22,15 @@ class ChatRoomManager {
     }
   }
 
+  // return true if user is added to room successfully false otherwise 
   joinRoom(roomId, username) {
-    if (this.existingRooms[roomId]) {
-      this.existingRooms[roomId].currentUsers.push(username)
+    const room = this.existingRooms[roomId];
+    if (room) {
+      if (room.currentUsers.includes(username)) return false;
+      room.currentUsers.push(username)
+      return true;
     }
-    else throw new Error("Room doesn't exist!");
+    return false;
   }
 
   // generates a string consisting of n random chars 
@@ -43,11 +42,16 @@ class ChatRoomManager {
   }
 
   leaveRoom(roomId, username) {
-    if (this.existingRooms[roomId]) {
-      const index = this.existingRooms[roomId].currentUsers.indexOf(username);
-      if (~index)
-        this.existingRooms.splice(index, 1);
+    const room = this.existingRooms[roomId];
+    if (room) {
+      const index = room.currentUsers.indexOf(username);
+      if (~index) {
+        room.currentUsers.splice(index, 1);
+        return true
+      }
+      return false;
     }
+    return false;
   }
 
   createRoom(owner) {
@@ -89,25 +93,27 @@ class Socket {
   setSocket(io) {
     this.io = io;
     io.on('connection', (socket) => {
-      const roomId = socket.handshake.query.roomId;
-
+      const { roomId, username } = socket.handshake.query
       // subscribe to new user join event 
       socket.on('join', (username) => {
         console.log(`user: ${username} joined the room: ${roomId}`);
-        chatRoomManager.joinRoom(roomId, username)
-        socket.join(roomId);
-        this.io.to(roomId).emit('chat_room', {
-          eventType: 'USER_JOIN',
-          data: username
-        })
+        if (chatRoomManager.joinRoom(roomId, username)) {
+          socket.join(roomId);
+          this.io.to(roomId).emit('chat_room', {
+            eventType: 'USER_JOIN',
+            data: username
+          })
+        }
       })
 
-      socket.on('disconnect', (username) => {
-        chatRoomManager.leaveRoom(roomId, username)
-        this.io.to(roomId).emit({
-          eventType: 'USER_LEAVE',
-          data: username
-        })
+      socket.on('disconnect', () => {
+        console.log(`user: ${username} left the room: ${roomId}`);
+        if (chatRoomManager.leaveRoom(roomId, username)) {
+          this.io.to(roomId).emit('chat_room', {
+            eventType: 'USER_LEAVE',
+            data: username
+          })
+        }
       })
 
       socket.on('message', (newMessage) => {
