@@ -1,5 +1,4 @@
 /backend/node_modules/
-/backend/bin/
 /client/node_modules/
 node_modules/
 /client/.env
