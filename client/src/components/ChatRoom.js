@@ -24,6 +24,7 @@ const ChatRoom = (props) => {
   const location = useLocation();
   if (!location.state) history.push('/')
   const { username, roomData } = location.state;
+  if (!username || !roomData) history.push('/')
   // states
   const [messages, setMessages] = useState(roomData.messages);
   const [currentUsers, setCurrentUsers] = useState(roomData.currentUsers);

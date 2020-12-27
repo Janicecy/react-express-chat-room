@@ -16,7 +16,7 @@
 
 #user-row > div {
   flex: 0 1 30%;
-  margin: 5px 0;
+  margin: 5px auto;
 }
 
 .user-name {

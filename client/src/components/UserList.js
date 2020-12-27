@@ -20,7 +20,7 @@ const UserList = (props) => {
           <div style={{ flex: '0 1 40%'}}>
             {
               username === roomOwner
-                ? <span className='user-label'>Room owner</span>
+                ? <span className='user-label'>Owner</span>
                 : null
             }
           </div>
