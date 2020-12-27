@@ -63,7 +63,7 @@ const MainPage = (props) => {
 
   return (
     <div id='main-page'>
-      <GithubOutlined classNamew='githubIcon'
+      <GithubOutlined className='githubIcon'
         onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')}
       />
 
