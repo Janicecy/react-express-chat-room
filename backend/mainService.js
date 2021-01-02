@@ -47,6 +47,10 @@ class ChatRoomManager {
       const index = room.currentUsers.indexOf(username);
       if (~index) {
         room.currentUsers.splice(index, 1);
+        // delete room if no users 
+        if (room.currentUsers.length === 0) {
+          delete this.existingRooms[roomId];
+        }
         return true
       }
       return false;
