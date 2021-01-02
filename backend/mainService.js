@@ -78,16 +78,6 @@ class ChatRoomManager {
     if (!this.existingRooms[roomId]) throw new Error("Room doesn't exist!");
     return this.existingRooms[roomId];
   }
-
-  addMessage(data) {
-    const { roomId, message } = data;
-    if (!this.existingRooms[roomId]) throw new Error('Room does not exist!')
-    this.existingRooms[roomId].messages.push(message);
-    socketService.emitToChatRoom(
-      roomId,
-      { eventType: EVENT_TYPE.NEW_MESSAGE, data: message }
-    )
-  }
 }
 
 const chatRoomManager = new ChatRoomManager()
