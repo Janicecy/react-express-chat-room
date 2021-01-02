@@ -204,7 +204,10 @@ const InputBox = (props) => {
         <label for='img-input'>
           <img src={imgIcon} id='img-uoload-icon' />
         </label>
-        <input type="file" onChange={uploadImage} id='img-input' accept />
+        <input type="file"
+          onChange={uploadImage}
+          id='img-input'
+          accept="image/png, image/jpeg" />
       </span>
       <input type='textarea'
         wrap="soft"
