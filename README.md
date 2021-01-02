@@ -19,7 +19,7 @@ yarn start
 ./backend
 yarn start 
 ```
-## ScreenShots
+## Screenshots
 ![Image text](https://github.com/JANICECY/react-express-chat-room/blob/master/demo_images/laptop_mainPage.png)
 <img src="https://github.com/JANICECY/react-express-chat-room/blob/master/demo_images/mobile_chatRoom.png" width=400/>
 <img src="https://github.com/JANICECY/react-express-chat-room/blob/master/demo_images/mobile_userList.png" width=400/>
