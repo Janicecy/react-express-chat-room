@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import ChatRoom from './components/ChatRoom'
 import MainPage from './components/MainPage'
 
@@ -11,6 +11,7 @@ ReactDOM.render(
     <Switch>
       <Route exact path='/' component={MainPage}/>
       <Route exact path='/room/:roomId' component={ChatRoom} />
+      <Route render={() => <Redirect to="/" />} />
     </Switch>
   </BrowserRouter>,
 document.getElementById('root')
