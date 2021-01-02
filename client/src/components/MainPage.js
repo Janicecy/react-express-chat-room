@@ -24,12 +24,12 @@ const MainPage = (props) => {
       })
     }
     else {
-      axios.get(`/api/room/${roomId}`)
+      axios.get(`/api/room/${roomId}/username/${username}`)
         .then(res => {
           if (res.data) routeToRoom(res.data)
         })
         .catch(e => {
-          setJoinError({ visible: true, text: 'Room does not exist' })
+          setJoinError({ visible: true, text: e.response.data })
         })
     }
 

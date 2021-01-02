@@ -1,9 +1,6 @@
-// Main Services 
-const EVENT_TYPE = {
-  NEW_USER: 'NEW_USER',
-  NEW_MESSAGE: 'NEW_MESSAGE'
-}
-
+/**
+ * This class defines the basic functionalities of chat room, like join, create and leave chat room 
+ */
 class ChatRoomManager {
   constructor() {
     this.existingRooms = {
@@ -74,8 +71,10 @@ class ChatRoomManager {
     return room;
   }
 
-  getRoom(roomId) {
-    if (!this.existingRooms[roomId]) throw new Error("Room doesn't exist!");
+  getRoom(roomId, username) {
+    const room = this.existingRooms[roomId]
+    if (!room) throw new Error("Room does not exist");
+    if (room.currentUsers.includes(username)) throw new Error('Username was taken');
     return this.existingRooms[roomId];
   }
 }
@@ -111,11 +110,16 @@ class Socket {
       })
 
       socket.on('message', (newMessage) => {
-        console.log('receive new message...', newMessage);
-        this.io.to(roomId).emit('chat_room', {
-          eventType: 'NEW_MESSAGE',
-          data: newMessage
-        })
+        console.log('receive new message...');
+        try {
+          this.io.to(roomId).emit('chat_room', {
+            eventType: 'NEW_MESSAGE',
+            data: newMessage
+          })
+        }
+        catch (e) {
+          console.log("emitting message failed: " + e.message)
+        }
       })
     })
 

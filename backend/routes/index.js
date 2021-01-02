@@ -14,9 +14,9 @@ router.post("/room/create", (req, res) => {
 })
 
 
-router.get('/room/:roomId', (req, res) => {
+router.get('/room/:roomId/username/:username', (req, res) => {
   try {
-    const roomInfo = chatRoomService.getRoom(req.params.roomId)
+    const roomInfo = chatRoomService.getRoom(req.params.roomId, req.params.username)
     res.status(200).send(roomInfo)
   }
   catch (e) {

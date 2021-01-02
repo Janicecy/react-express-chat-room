@@ -81,6 +81,10 @@ button {
     justify-content: center;
     font-size: 30px;
   }
+
+  .error-message {
+    font-size: 18px;
+  }
 }
 
 
