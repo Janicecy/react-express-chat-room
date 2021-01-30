@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/react-express-chat-room/static/css/main.e418fa02.chunk.css",
+    "main.js": "/react-express-chat-room/static/js/main.326e7e1d.chunk.js",
+    "main.js.map": "/react-express-chat-room/static/js/main.326e7e1d.chunk.js.map",
+    "runtime-main.js": "/react-express-chat-room/static/js/runtime-main.6cfe5b1b.js",
+    "runtime-main.js.map": "/react-express-chat-room/static/js/runtime-main.6cfe5b1b.js.map",
+    "static/js/2.f2012aa6.chunk.js": "/react-express-chat-room/static/js/2.f2012aa6.chunk.js",
+    "static/js/2.f2012aa6.chunk.js.map": "/react-express-chat-room/static/js/2.f2012aa6.chunk.js.map",
+    "static/js/3.628c39d1.chunk.js": "/react-express-chat-room/static/js/3.628c39d1.chunk.js",
+    "static/js/3.628c39d1.chunk.js.map": "/react-express-chat-room/static/js/3.628c39d1.chunk.js.map",
+    "index.html": "/react-express-chat-room/index.html",
+    "static/css/main.e418fa02.chunk.css.map": "/react-express-chat-room/static/css/main.e418fa02.chunk.css.map",
+    "static/js/2.f2012aa6.chunk.js.LICENSE.txt": "/react-express-chat-room/static/js/2.f2012aa6.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6cfe5b1b.js",
+    "static/js/2.f2012aa6.chunk.js",
+    "static/css/main.e418fa02.chunk.css",
+    "static/js/main.326e7e1d.chunk.js"
+  ]
+}
