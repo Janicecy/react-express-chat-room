@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import styles from './ChatRoom.css'
 import socketIOClient from 'socket.io-client'
 import { ENDPOINT, EVENT_TYPE, MESSAGE_TYPES } from '../constants'
@@ -33,8 +32,6 @@ const ChatRoom = (props) => {
   const { width: windowWidth } = useWindowSize();
 
   const history = useHistory();
-  const socket = socketIOClient(ENDPOINT, { query: { roomId: roomData.roomId, username } });
-
   const _constructMessage = ({ type, content }, author) => {
     return {
       type,
@@ -43,40 +40,6 @@ const ChatRoom = (props) => {
       author
     }
   }
-
-  // before connecting to websocket, make sure the room was created 
-  useEffect(() => {
-    console.log('client connecting to socket.....');
-    socket.emit('join', username)
-
-    // the changes of  outer `messages` will not be reflected here, so 
-    let _messsages = messages; // create a closure variable tp keep track of current messages
-    let _currentUsers = currentUsers;
-    socket.on("chat_room", (res) => {
-      switch (res.eventType) {
-        case EVENT_TYPE.USER_JOIN:
-          _currentUsers = [..._currentUsers, res.data]
-          _messsages = [..._messsages, { type: MESSAGE_TYPES.USER_JOIN, username: res.data }]
-          setCurrentUsers(_currentUsers)
-          setMessages(_messsages)
-          break;
-        case EVENT_TYPE.NEW_MESSAGE:
-          _messsages = [..._messsages, res.data]
-          console.log('new message' + res.data);
-          setMessages(_messsages);
-          // scrollToBottom();
-          break;
-        case EVENT_TYPE.USER_LEAVE:
-          _messsages = [..._messsages, { type: MESSAGE_TYPES.USER_LEAVE, username: res.data }]
-          _currentUsers = _currentUsers.removeElement(res.data);
-          setCurrentUsers(_currentUsers)
-          setMessages(_messsages)
-          break;
-        default:
-          break;
-      }
-    })
-  }, [])
 
   const scrollToBottom = () => {
     const targetEle = document.getElementsByClassName('message-wrapper');
@@ -87,7 +50,7 @@ const ChatRoom = (props) => {
   }
 
   const adddNewMessage = (newMessage, clearInput) => {
-    socket.emit('message', newMessage)
+    setMessages([...messages, newMessage])
     clearInput();
   }
 

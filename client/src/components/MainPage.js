@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { GithubOutlined } from '@ant-design/icons';
 import styles from './MainPage.css'
 import ParticleBG from './ParticleBG'
 
+const dummyMessages = [
+  {
+    type: "TEXT",
+    content: "Hi, I am Ying!",
+    time: 'July 19, 2020',
+    author: 'JaniceCY',
+  },
+  {
+    type: "TEXT",
+    content: "Hope you enjoy this app!🤓",
+    time: 'July 19, 2020',
+    author: 'JaniceCY',
+  },
+]
 const MainPage = (props) => {
   const [roomId, setRoomId] = useState('');
   const [username, setUsername] = useState('');
@@ -24,15 +37,14 @@ const MainPage = (props) => {
       })
     }
     else {
-      axios.get(`/api/room/${roomId}/username/${username}`)
-        .then(res => {
-          if (res.data) routeToRoom(res.data)
-        })
-        .catch(e => {
-          setJoinError({ visible: true, text: e.response.data })
-        })
+      const dummyRoom = {
+        owner: 'JaniceCY',
+        messages: dummyMessages,
+        currentUsers: ['JaniceCY', username],
+        roomId
+      }
+      routeToRoom(dummyRoom)
     }
-
   }
 
   const routeToRoom = (roomData) => {
@@ -47,17 +59,13 @@ const MainPage = (props) => {
       })
     }
     else {
-      axios
-        .post('/api/room/create', { owner: username })
-        .then((res) => {
-          routeToRoom(res.data)
-        })
-        .catch(() => {
-          setCreationError({
-            visible: true,
-            text: 'Someething went wrong...'
-          })
-        })
+      const dummyRoom = {
+        owner: username,
+        messages: dummyMessages,
+        currentUsers: [username, 'JaniceCY'],
+        roomId: 'QWER'
+      }
+      routeToRoom(dummyRoom)
     }
   }
 
