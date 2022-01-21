@@ -1,6 +1,6 @@
 # react-express-chat-room 
 A real-time chat room application built with Socket.IO\
-You can play around with it at http://janicecy.com/react-express-chat-room
+You can play around with it at https://react-express-chat-room.herokuapp.com/
 ## Built With
 - React
 - Node.js
