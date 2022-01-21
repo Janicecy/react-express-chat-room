@@ -7,10 +7,6 @@ body {
 
 :root,
 * {
-  --height: 1024px;
-  --width: 1280px;
-  --mobile-fixed-offset: 6vh;
-  --desktop-fixed-offset: 3vh;
   font-family: Verdana, sans-serif;
   --chat-room-bg: #0c0c0c;
   --panel-bg: #16161a;
