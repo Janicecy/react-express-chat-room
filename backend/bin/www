@@ -21,7 +21,7 @@ app.set('port', port);
  */
 
  // socket singleton 
-const { socket } = require('../mainService');
+const socket = require('../socket');
 var server = http.createServer(app);
 const io = require('socket.io')(server, {
   cors: {
