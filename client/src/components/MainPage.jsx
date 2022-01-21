@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
   errorMessage: {
     color: '#ff0033',
     fontWeight: 'bold',
-    margin: '4px 0'
+    margin: '10px auto',
+    fontSize: '1rem'
   }
 }))
 

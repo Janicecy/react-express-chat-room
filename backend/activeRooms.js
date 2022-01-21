@@ -12,5 +12,30 @@ const publicRoom = {
   id: 'public',
   currentUsers: []
 }
+
 activeRooms.set('public', publicRoom)
-module.exports = activeRooms
+
+function leaveRoom(roomId, username) {
+  const room = activeRooms.get(roomId)
+  room.currentUsers = room.currentUsers.filter(name => name !== username)
+  activeRooms.set(roomId, { ...room })
+}
+
+function joinRoom(roomId, username) {
+  const room = activeRooms.get(roomId)
+  room.currentUsers.push(username)
+  activeRooms.set(roomId, { ...room })
+}
+
+function addNewMessage(roomId, message) {
+  const room = activeRooms.get(roomId)
+  room.messages = [...room.messages, message]
+  activeRooms.set(roomId, { ...room })
+}
+
+module.exports = {
+  leaveRoom,
+  joinRoom,
+  addNewMessage,
+  activeRooms
+}

@@ -28,8 +28,12 @@ const Input = (props) => {
   const clearInput = () => setInputText('')
 
   const uploadImage = async (e) => {
-    const res = await getBase64(e.target.files[0])
-    props.onNewMessage({ type: MESSAGE_TYPES.IMAGE, content: res })
+    try {
+      const res = await getBase64(e.target.files[0])
+      props.onNewMessage({ type: MESSAGE_TYPES.IMAGE, content: res })
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const sendText = () => {

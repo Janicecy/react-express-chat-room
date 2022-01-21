@@ -1,4 +1,4 @@
-const activeRooms = require('./activeRooms')
+const { joinRoom, leaveRoom, addNewMessage } = require('./activeRooms')
 
 class Socket {
   setSocket(io) {
@@ -9,13 +9,9 @@ class Socket {
       socket.on('join_room', (username, roomId) => {
         console.log(`user: ${username} joined the room: ${roomId}`);
         socket.join(roomId);
-
         _roomId = roomId
         _username = username
-
-        const room = activeRooms.get(roomId)
-        room.currentUsers.push(username)
-        activeRooms.set(roomId, { ...room })
+        joinRoom(roomId, username)
 
         this.io.to(roomId).emit('chat_room', {
           eventType: 'USER_JOIN',
@@ -24,11 +20,7 @@ class Socket {
       })
 
       socket.on('leave_room', () => {
-        if (!_roomId) return
-        const room = activeRooms.get(_roomId)
-        room.currentUsers = room.currentUsers.filter(name => name !== _username)
-        activeRooms.set(_roomId, { ...room })
-
+        leaveRoom(_roomId, _username)
         this.io.to(_roomId).emit('chat_room', {
           eventType: 'USER_LEAVE',
           payload: _username
@@ -36,23 +28,15 @@ class Socket {
       })
 
       socket.on('disconnect', () => {
-        console.log('socket disconnected');
         if (!_roomId) return
-        const room = activeRooms.get(_roomId)
-        room.currentUsers = room.currentUsers.filter(name => name !== _username)
-        activeRooms.set(_roomId, { ...room })
-
-        this.io.to(_roomId).emit('chat_room', {
-          eventType: 'USER_LEAVE',
-          payload: _username
-        })
+        console.log('socket disconnected');
+        leaveRoom(_roomId, _username)
+        _roomId = null
+        _username = null
       })
 
       socket.on('new_message', (message, roomId) => {
-        const room = activeRooms.get(roomId)
-        room.messages = [...room.messages, message]
-        activeRooms.set(roomId, { ...room })
-
+        addNewMessage(roomId, message)
         this.io.to(roomId).emit('chat_room', {
           eventType: 'NEW_MESSAGE',
           payload: message

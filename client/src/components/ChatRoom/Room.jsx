@@ -67,6 +67,7 @@ const Room = (props) => {
       .then(res => {
         const { room } = res.data
         dispatch(setRoom(room))
+        socket.emit('join_room', username, room.id)
       })
       .catch(e => props.history.push('/'))
   }
@@ -79,7 +80,6 @@ const Room = (props) => {
     if (!username || !roomId) {
       return props.history.push('/')
     }
-    socket.emit('join_room', username, roomId)
   }, [username, roomId]);
 
 
