@@ -3,10 +3,11 @@ const { joinRoom, leaveRoom, addNewMessage } = require('./activeRooms')
 class Socket {
   setSocket(io) {
     this.io = io;
-    let _roomId = null
-    let _username = null
     io.on('connection', (socket) => {
+      let _roomId = null
+      let _username = null
       socket.on('join_room', (username, roomId) => {
+        if (!username) return
         console.log(`user: ${username} joined the room: ${roomId}`);
         socket.join(roomId);
         _roomId = roomId
@@ -25,12 +26,17 @@ class Socket {
           eventType: 'USER_LEAVE',
           payload: _username
         })
+        _roomId = null
       })
 
       socket.on('disconnect', () => {
         if (!_roomId) return
-        console.log('socket disconnected');
         leaveRoom(_roomId, _username)
+        this.io.to(_roomId).emit('chat_room', {
+          eventType: 'USER_LEAVE',
+          payload: _username
+        })
+
         _roomId = null
         _username = null
       })

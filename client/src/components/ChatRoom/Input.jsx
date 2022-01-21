@@ -46,7 +46,7 @@ const Input = (props) => {
   return (
     <div className={classes.root}>
       <div>
-        <label for='upload'>
+        <label htmlFor='upload'>
           <InsertPhotoIcon className={classes.uploadIcon} />
         </label>
         <input

@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     margin: '5px auto'
   },
   author: {
-    color: '#60a3bc', 
+    color: '#60a3bc',
     fontWeight: 'bold',
   },
 }))
@@ -42,10 +42,10 @@ const Messages = (props) => {
   return (
     <div className={classes.root}>
       {messages.map(message => {
-        const { author, type } = message
+        const { author, type, id } = message
         return ['USER_LEAVE', 'USER_JOIN'].includes(type)
-          ? (<UserActionMessage author={author} type={type} />)
-          : (<Message isSender={author === currentUser} message={message} />)
+          ? (<UserActionMessage key={id} author={author} type={type} />)
+          : (<Message key={id} isSender={author === currentUser} message={message} />)
       })}
     </div>
   );

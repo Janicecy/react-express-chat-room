@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { GithubOutlined } from '@ant-design/icons';
 import ParticleBG from './ParticleBG'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/user';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,7 +87,7 @@ const MainPage = (props) => {
 
   return (
     <div className={classes.root}>
-      <GithubOutlined className='githubIcon'
+      <GitHubIcon className='githubIcon'
         onClick={() => window.open('https://github.com/JANICECY/react-express-chat-room')}
       />
       <div className={classes.section}>

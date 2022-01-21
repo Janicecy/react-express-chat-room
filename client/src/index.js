@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { ThemeProvider, } from '@mui/styles';
+import { ThemeProvider } from '@mui/styles';
 import { createTheme } from '@mui/material/styles';
 import { Provider } from 'react-redux'
 import store, { persistor } from './store'

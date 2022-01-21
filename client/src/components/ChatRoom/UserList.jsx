@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     color: '#fff'
   },
-  admin: {
+  owner: {
     color: '#048f81',
     border: '1px solid#048f81',
     borderRadius: 3,
@@ -70,10 +70,10 @@ export default function UserList({ room }) {
         Chat Room - <span style={{ color: 'lightblue' }}>{room.id}</span>
       </h2>
       {room.currentUsers.map((username) => (
-        <div className={classes.user}>
+        <div className={classes.user} key={username}>
           <AccountCircleIcon fontSize='large' className={classes.avatar} />
           <span className={classes.username}>{username}</span>
-          <span style={{ opacity: username !== room.owner && 0 }} className={classes.admin}>Admin</span>
+          <span style={{ opacity: username !== room.owner && 0 }} className={classes.owner}>Owner</span>
         </div>
       ))}
 

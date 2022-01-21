@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { setRoom } from '../../store/room';
 import GroupIcon from '@mui/icons-material/Group';
+import { nanoid } from 'nanoid'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -82,10 +83,15 @@ const Room = (props) => {
     }
   }, [username, roomId]);
 
-
   const handleNewMessage = (message) => {
-    socket.emit('new_message', { ...message, createdAt: Date.now(), author: username }, room.id)
+    socket.emit('new_message', {
+      ...message,
+      createdAt: Date.now(),
+      author: username,
+      id: nanoid()
+    }, room.id)
   }
+
   return (
     <div className={classes.root}>
       <div className={classes.mobileHeader}>

@@ -18,12 +18,16 @@ activeRooms.set('public', publicRoom)
 function leaveRoom(roomId, username) {
   const room = activeRooms.get(roomId)
   room.currentUsers = room.currentUsers.filter(name => name !== username)
-  activeRooms.set(roomId, { ...room })
+  if (room.currentUsers.length === 0) {
+    activeRooms.delete(roomId)
+  } else {
+    activeRooms.set(roomId, { ...room })
+  }
 }
 
 function joinRoom(roomId, username) {
   const room = activeRooms.get(roomId)
-  room.currentUsers.push(username)
+  room.currentUsers = [...room.currentUsers, username]
   activeRooms.set(roomId, { ...room })
 }
 

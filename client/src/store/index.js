@@ -1,24 +1,21 @@
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import room from './room'
 import user from './user'
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'
-
-const persistConfig = {
-  key: 'user',
-  storage,
-}
+import loggerMiddleware from "redux-logger";
 
 const rootReducer = combineReducers({
   room,
-  user: persistReducer(persistConfig, user),
+  user: persistReducer({ key: 'user', storage, }, user),
 });
 
 const store = createStore(
   rootReducer,
-  compose(
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  applyMiddleware(loggerMiddleware)
+  // compose(
+  //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // )
 )
 
 export const persistor = persistStore(store)
