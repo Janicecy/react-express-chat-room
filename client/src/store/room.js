@@ -17,17 +17,17 @@ export const setRoom = (room) => {
   }
 }
 
-export const userJoin = (author) => {
+export const userJoin = (sender) => {
   return {
     type: USER_JOIN,
-    author
+    sender
   }
 }
 
-export const userLeave = (author) => {
+export const userLeave = (sender) => {
   return {
     type: USER_LEAVE,
-    author
+    sender
   }
 }
 
@@ -50,14 +50,14 @@ const reducer = (state = initialState, action) => {
     case USER_JOIN:
       return {
         ...state,
-        messages: [...messages, { type: MESSAGE_TYPES.USER_JOIN, author: action.author }],
-        currentUsers: [...currentUsers, action.author]
+        messages: [...messages, { type: MESSAGE_TYPES.USER_JOIN, sender: action.sender }],
+        currentUsers: [...currentUsers, action.sender]
       }
     case USER_LEAVE:
       return {
         ...state,
-        messages: [...messages, { type: MESSAGE_TYPES.USER_LEAVE, author: action.author }],
-        currentUsers: currentUsers.filter(name => name !== action.author)
+        messages: [...messages, { type: MESSAGE_TYPES.USER_LEAVE, sender: action.sender }],
+        currentUsers: currentUsers.filter(name => name !== action.sender)
       }
     case NEW_MESSAGE:
       return {
