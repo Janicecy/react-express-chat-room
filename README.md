@@ -1,12 +1,17 @@
 # react-express-chat-room 
-A real-time chat room application built with Socket.IO\
-You can play around with it at https://react-express-chat-room.herokuapp.com/
+A real-time chat room application that leverages Socket.IO\
 ## Built With
 - React
-- Node.js
 - Express.js
+- PostgreSQL
 - Socket.IO
 ## Setup
+Update `db.js` to connect with your local PostgreSQL setup. 
+```
+const db = new Sequelize(process.env.DATABASE_URL || "YOUR_PostgreSQL_CONNECTION_URI_HERE", {
+  logging: false
+});
+```
 To run this project, install it locally using npm or yarn:
 ```
 yarn global add nodemon
