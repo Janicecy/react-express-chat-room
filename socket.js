@@ -1,4 +1,4 @@
-const { joinRoom, leaveRoom, addNewMessage } = require('./activeRooms')
+const { joinRoom, leaveRoom, addNewMessage } = require('./controllers/room')
 
 class Socket {
   setSocket(io) {

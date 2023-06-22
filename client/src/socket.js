@@ -2,7 +2,7 @@ import socketIOClient from 'socket.io-client'
 import { USER_JOIN, USER_LEAVE, NEW_MESSAGE, userJoin, userLeave, newMessage } from './store/room'
 import store from "./store";
 
-const socket = socketIOClient('https://react-express-chat-room.herokuapp.com')
+const socket = socketIOClient('http://localhost:5000')
 
 socket.on("chat_room", (data) => {
   switch (data.eventType) {
