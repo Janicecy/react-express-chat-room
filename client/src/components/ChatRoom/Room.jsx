@@ -65,7 +65,7 @@ const Room = (props) => {
   const fetchRoom = () => {
     axios.get(`/api/rooms/${roomId}`)
       .then(res => {
-        const { room } = res.data
+        const room = res.data
         dispatch(setRoom(room))
         socket.emit('join_room', username, room.id)
       })
@@ -86,7 +86,7 @@ const Room = (props) => {
     socket.emit('new_message', {
       ...message,
       createdAt: Date.now(),
-      author: username,
+      sender: username,
       id: nanoid()
     }, room.id)
   }

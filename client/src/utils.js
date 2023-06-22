@@ -6,7 +6,7 @@ export function getBase64(file) {
     ];
     try {
       if (file !== undefined) {
-        if (!SUPPORTED_FILE_TYPES.includes(file.type)) return rej('Unsported image type!')
+        if (!SUPPORTED_FILE_TYPES.includes(file.type)) return rej('Unsupported image type!')
         if (file.size > 1024 * 2048) return rej('Maximum image size is 2MB!')
         const reader = new FileReader(); // asynchronously read the files stored on the user's computer 
         reader.readAsDataURL(file); // encoded as Base 64 URL string 
