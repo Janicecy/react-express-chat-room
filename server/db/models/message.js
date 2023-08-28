@@ -1,25 +1,14 @@
-const db = require('../db')
-const { DataTypes } = require("sequelize");
+const mongoose = require('mongoose')
 
-const Message = db.define("message", {
-  id: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    primaryKey: true
-  },
-  type: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  sender: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  }
+const messageSchema = new mongoose.Schema({
+  id: { type: String, required: true },
+  type: { type: String, required: true },
+  content: { type: String, required: true },
+  sender: { type: String, required: true },
+  createdAt: { type: Number, required: true },
+  roomId: { type: String, required: true },
 })
+
+const Message = mongoose.model("Message", messageSchema, "Messages");
 
 module.exports = Message;

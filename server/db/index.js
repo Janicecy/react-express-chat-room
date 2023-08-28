@@ -1,4 +1,2 @@
-const db = require("./db");
-require("./models");
-
-module.exports = db;
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://127.0.0.1:27017/messenger');

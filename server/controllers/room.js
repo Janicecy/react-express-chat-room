@@ -3,16 +3,12 @@ const { customAlphabet } = require('nanoid')
 const nanoid = customAlphabet('1234567890abcdef', 6)
 
 async function leaveRoom(roomId, username) {
-  const room = await Room.findRoomById(roomId)
-  const currentUsers = room.toJSON().currentUsers.filter(name => name !== username)
+  const room = await Room.findOne({ id: roomId })
+  const currentUsers = room.currentUsers.filter(name => name !== username)
   if (currentUsers.length === 0) {
     // clean up unused room and its associated messages 
-    await Message.destroy({
-      where: {
-        roomId
-      }
-    })
-    await room.destroy()
+    await Message.deleteMany({ roomId })
+    await Room.deleteOne({ id: roomId })
   } else {
     room.currentUsers = currentUsers
     await room.save()
@@ -20,10 +16,9 @@ async function leaveRoom(roomId, username) {
 }
 
 async function joinRoom(roomId, username) {
-  const room = await Room.findRoomById(roomId)
+  const room = await Room.findOne({ id: roomId })
   if (room) {
-    const roomJSON = room.toJSON()
-    room.currentUsers = [...roomJSON.currentUsers, username]
+    room.currentUsers = [...room.currentUsers, username]
     await room.save()
   }
 }
@@ -41,23 +36,15 @@ const createRoom = async (req, res) => {
     return res.status(400).json({ error: 'username is not provided' })
   }
   const id = nanoid()
-  const room = await Room.create({ owner, id })
+  const room = await Room.create({ owner, id, currentUsers: [] })
   res.json(room)
 }
 
 const getRoom = async (req, res) => {
-  const room = await Room.findOne({
-    where: {
-      id: req.params.id
-    },
-    include: [
-      {
-        model: Message
-      }
-    ]
-  })
+  const room = await Room.findOne({ id: req.params.id })
+  const messages = await Message.find({ roomId: room.id })
   if (!room) return res.status(401).json({ error: 'Room with the id does not exist.' })
-  res.json(room.toJSON())
+  res.json({...room.toObject(), messages })
 }
 
 module.exports = {

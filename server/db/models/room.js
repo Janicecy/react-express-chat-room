@@ -1,29 +1,10 @@
-const db = require('../db')
-const Message = require('./message')
-const { DataTypes } = require("sequelize");
+const mongoose = require('mongoose')
 
-const Room = db.define('room', {
-  owner: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  id: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    primaryKey: true
-  },
-  currentUsers: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    defaultValue: []
-  }
+const roomSchema = new mongoose.Schema({
+  id: { type: String, required: true },
+  owner: { type: String, required: true },
+  currentUsers: [{ type: String }]
 })
-
-Room.findRoomById = async (id) => {
-  const room = await Room.findOne({
-    where: { id }
-  })
-  return room 
-}
+const Room = mongoose.model("Room", roomSchema, "Rooms");
 
 module.exports = Room
