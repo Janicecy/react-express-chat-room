@@ -3,7 +3,7 @@ const { customAlphabet } = require('nanoid')
 const nanoid = customAlphabet('1234567890abcdef', 6)
 
 async function leaveRoom(roomId, username) {
-  const room = await Room.findOne({ id: roomId })
+  const room = await Room.findById(roomId)
   const currentUsers = room.currentUsers.filter(name => name !== username)
   if (currentUsers.length === 0) {
     // clean up unused room and its associated messages 
@@ -16,7 +16,7 @@ async function leaveRoom(roomId, username) {
 }
 
 async function joinRoom(roomId, username) {
-  const room = await Room.findOne({ id: roomId })
+  const room = await Room.findById(roomId)
   if (room) {
     room.currentUsers = [...room.currentUsers, username]
     await room.save()
@@ -41,7 +41,7 @@ const createRoom = async (req, res) => {
 }
 
 const getRoom = async (req, res) => {
-  const room = await Room.findOne({ id: req.params.id })
+  const room = await Room.findById(req.params.id)
   const messages = await Message.find({ roomId: room.id })
   if (!room) return res.status(401).json({ error: 'Room with the id does not exist.' })
   res.json({...room.toObject(), messages })

@@ -5,6 +5,10 @@ const roomSchema = new mongoose.Schema({
   owner: { type: String, required: true },
   currentUsers: [{ type: String }]
 })
-const Room = mongoose.model("Room", roomSchema, "Rooms");
 
+roomSchema.statics.findById = function(id) {
+  return this.findOne({ id })
+}
+
+const Room = mongoose.model("Room", roomSchema);
 module.exports = Room

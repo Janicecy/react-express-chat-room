@@ -9,6 +9,6 @@ const messageSchema = new mongoose.Schema({
   roomId: { type: String, required: true },
 })
 
-const Message = mongoose.model("Message", messageSchema, "Messages");
+const Message = mongoose.model("Message", messageSchema);
 
 module.exports = Message;
